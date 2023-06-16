@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="iewc-salesdoc_output-eapi-test-suite.xml" />
+	<munit:test name="iewc-salesdoc_output-eapi-test-suite-mainTest" doc:id="d7160945-4812-4dc3-884b-a87d6ad4d629" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="cd2350f0-48af-4a25-8c08-12fb6f03499d" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="9eeb5fcd-fe6f-4a79-8266-fcf39fc53d79" >
+				<munit:variables >
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to iewc-salesdoc_output-eapi-main" doc:id="0368a1a5-5487-4383-8144-a3fc7d580d47" name="iewc-salesdoc_output-eapi-main"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="iewc-salesdoc_output-eapi-test-suite-consoleTest" doc:id="9a1a39d6-e4e8-4a86-9308-8a4b8b3e95d2" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitConsole" doc:id="54121f9b-dfea-4a7c-8d47-652eaf851943" processor="apikit:console">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to iewc-salesdoc_output-eapi-console" doc:id="2890d957-47bb-4c27-9974-172e55456e4e" name="iewc-salesdoc_output-eapi-console"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="7b33e014-8ce9-4c6a-b4d4-b0c41c25dc3a" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="APIKIT:BAD_REQUEST" doc:id="dba05c59-2cf6-4893-b01b-f4f8dd5db6a5" expectedErrorType="APIKIT:BAD_REQUEST">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="66c82991-0093-48d0-a48c-064e2d31e53e" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="6199709a-063b-4d7f-80b4-cd7ede415979">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="ec95c6ca-3514-4d8d-8fec-c900edcc43f7" name="iewc-salesdoc_output-eapi-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="a619dc30-d961-4f0c-872f-985ab98b92f0" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/badRequest.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+ <munit:test name="APIKIT:METHOD_NOT_ALLOWED" doc:id="831d267f-8cce-4612-a712-56047f50c505" expectedErrorType="APIKIT:METHOD_NOT_ALLOWED">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="625430c9-f95b-43f9-a4b9-e0e31124ef12" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="46e43a13-9621-4b87-8bc4-ee64a857bab3">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="6f6dee26-35cc-4bf8-83d7-c679247eb9dd" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="860b8b61-1d5e-401f-9454-37d7af7dfc8c" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/methodNotAllowed.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+ <munit:test name="APIKIT:NOT_ACCEPTABLE" doc:id="ecff5143-d0ff-4ea2-8e02-ed88aec6da3d" expectedErrorType="APIKIT:NOT_ACCEPTABLE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="958dbed1-f6a9-4fe3-8ed3-d412f37483df" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="7216f4a3-f493-4445-9194-48eebad06433">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="3b2de7ee-39f3-4e95-b47e-186f09814d13" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="b534e1be-21e8-478e-b144-1ba56d5d0e51" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/notAcceptable.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+ <munit:test name="APIKIT:NOT_FOUND" doc:id="7d499bbf-5d45-4970-a1f2-6663e9be7e51" expectedErrorType="APIKIT:NOT_FOUND">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="3fe8e6ea-4f7d-4460-8a17-038e844e3be8" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		
+</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="ec5aeddd-e12e-4d5a-82ef-1d09909bb72b">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="fb8ecd56-74a9-4c63-8af0-ecfea1b8d12e" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="af9b73f7-338f-4f28-a2df-c63d5d70547d" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/notFound.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+ <munit:test name="APIKIT:NOT_IMPLEMENTED" doc:id="06bcad92-7a64-4e8e-a318-f8043f6ceb3f" expectedErrorType="APIKIT:NOT_IMPLEMENTED">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="bd0e3e87-b232-4197-8a0f-c88efa65dddf" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="fc20a6e8-dea9-4fc3-b534-0a6f0df4b80a">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="59d3c921-808c-4c91-a3f1-087475201965" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="d6531e99-6c45-4c95-9980-311a42eb1ffc" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/notImplemented.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+ <munit:test name="APIKIT:UNSUPPORTED_MEDIA_TYPE" doc:id="9607cf5e-c337-495d-89d2-c8fc80474638" expectedErrorType="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="35118309-8967-47fe-8cd9-980ca10502fe" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="31d7dd15-5f0f-454a-ac03-693f1bff22f8">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="3180c414-7e07-485e-8328-c1fece64fa74" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="0b630ff9-60a9-448d-be74-39eb55497198" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/unsupportedMediaType.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+ <munit:test name="HTTP:FORBIDDEN" doc:id="3350f475-0517-4b94-a0bf-a704c1ffa9b7" expectedErrorType="HTTP:FORBIDDEN">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="7bc78378-3764-4add-a6dc-f3ddada08c1a" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:FORBIDDEN" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="8ca8c8c6-3344-4ea4-90de-50f2042afa16">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="d18bb688-2b8d-43da-8f02-477d61f82bfc" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1003f715-4f49-4583-9855-2a8b85b2f764" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/forbidden.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="HTTP:INTERNAL_SERVER_ERROR" doc:id="ac7cb423-0800-4559-9e4d-14a474b35c50" expectedErrorType="HTTP:INTERNAL_SERVER_ERROR">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="d7bb56be-4262-4469-998e-d66a1a279802" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:INTERNAL_SERVER_ERROR" />
+				</munit-tools:then-return>
+			
+
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="46641386-1231-4481-8ce7-f1ba7f9e62e7">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="7645e0fd-5c19-4ac4-87db-4be7b8c3d473" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="33141d19-eac4-4109-a952-b31708cb4500" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/serverError.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="HTTP:UNAUTHORIZED" doc:id="fccf731d-50e8-4283-9f00-18cb4ace708c" expectedErrorType="HTTP:UNAUTHORIZED">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="046c3093-d1fc-44a3-b617-6f1b79228456" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:UNAUTHORIZED" />
+				</munit-tools:then-return>
+			
+
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="14cd58b0-cbf0-4397-aa5a-cd4db8380ccc">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="b7c7c2f6-0e42-4ce9-b806-d3b9df0b4989" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="32cea629-9a20-4902-ad2e-a24a36ee7f21" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/unAuthorized.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="SAP:INVALID_CACHE" doc:id="0897ec40-6193-4fe2-a4bb-38c40525e64f" expectedErrorType="SAP:INVALID_CACHE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="c921891f-0b41-46fa-bfd4-71cdff51aaab" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="SAP:INVALID_CACHE" />
+				</munit-tools:then-return>
+			
+
+
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="06ba90c5-03db-465d-8eb0-8cfcfc0b972a">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="7c8ece6f-228c-497a-ab1d-c16bf2623480" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="7cd9e440-ea0c-4ce2-aa7d-4750dabb6af5" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/sapInvalidCache.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="SAP:CONNECTIVITY" doc:id="cda2d599-867d-46ff-ba7b-2b90a70b79a3" expectedErrorType="SAP:CONNECTIVITY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="0bdce1a0-fd85-47fc-a2cc-82aea15fb587" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="SAP:CONNECTIVITY" />
+				</munit-tools:then-return>
+			
+
+
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="bdc06094-687f-4be0-bc41-18d6c2db070d">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="6d66d3fc-5553-4373-86fd-f3837576fa68" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="a50b51c5-42dd-4898-8db2-46a6f4fcf1d0" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/sapConnectivity.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="SAP:INVALID_INPUT" doc:id="bd35021c-1bf2-4fd8-a729-3799a6382719" expectedErrorType="SAP:INVALID_INPUT">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="apiKitRouter" doc:id="8c510a76-7980-4835-a646-b613ebe891d7" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="iewc-salesdoc_output-eapi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="SAP:INVALID_INPUT" />
+				</munit-tools:then-return>
+			
+
+
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="f0336a99-559c-4f12-a086-1f4ee53ca175">
+				<munit:variables>
+					<munit:variable key="httpMethod" value='"POST"' />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference" doc:id="533bf0d2-04bc-4953-97fe-3d0194346f33" name="iewc-salesdoc_output-eapi-main"/>
+		
+</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1e9b41ad-3c7c-412a-a3ec-c8b4d63ee3cb" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/sapInvalidInput.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="iewc-salesdoc_output-eapi-test-suite-post:\salesdoc_output:application\json:iewc-salesdoc_output-eapi-configTest" doc:id="4d873e65-f2c8-4c41-83de-fb9cd8692d2a" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="httpRequest" doc:id="0d13137b-9a02-4984-9d77-be214671befd" processor="http:request" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="60ce0fac-84a2-426c-80e3-6987e87b99a7" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json  --- readUrl('classpath://MunitFiles/response.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="3ade0101-b2d6-42f1-a348-63e3377769b0">
+				<munit:payload value="#[output application/json  --- readUrl('classpath://MunitFiles/request.dwl')]" mediaType="application/json" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to post:\salesdoc_output:application\json:iewc-salesdoc_output-eapi-config" doc:id="12796c4d-0908-48b4-8f83-579a442ba522" name="post:\salesdoc_output:application\json:iewc-salesdoc_output-eapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3898b679-277e-4e71-a7ad-6b08f3da6d36" expression="#[payload]" is="#[MunitTools::equalTo(readUrl('classpath://MunitFiles/response.dwl'))]" />
+		</munit:validation>
+	</munit:test>
+ 
+
+</mule>
